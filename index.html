@@ -1,0 +1,1811 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NetformR&D 퇴사자 오프보딩 가이드</title>
+    <!-- html2canvas 라이브러리: HTML을 이미지로 변환 -->
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+            line-height: 1.6;
+            color: #37352f;
+            background: #f7f6f3;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 40px;
+            background: #ffffff;
+            min-height: 100vh;
+            box-shadow: 0 0 0 1px rgba(0,0,0,0.03);
+        }
+
+        .header {
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+        }
+
+        .header p {
+            font-size: 1em;
+            color: #37352f;
+            line-height: 1.6;
+        }
+
+        .divider {
+            height: 1px;
+            background: #e9e9e7;
+            margin: 40px 0;
+        }
+
+        .section {
+            margin-bottom: 48px;
+        }
+
+        .section-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .callout {
+            background: #f7f6f3;
+            border-radius: 4px;
+            padding: 16px;
+            margin-bottom: 24px;
+            display: flex;
+            gap: 12px;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .callout-icon {
+            font-size: 1.3em;
+            flex-shrink: 0;
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            font-size: 0.85em;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 6px;
+        }
+
+        .required {
+            color: #e03e3e;
+            font-weight: 700;
+            margin-left: 2px;
+        }
+
+        .input-group input,
+        .input-group select,
+        .input-group textarea {
+            padding: 8px 10px;
+            border: 1px solid #e9e9e7;
+            border-radius: 3px;
+            font-size: 0.95em;
+            font-family: inherit;
+            transition: border 0.15s;
+            background: #ffffff;
+        }
+
+        .input-group input:hover,
+        .input-group select:hover,
+        .input-group textarea:hover {
+            border-color: #d3d3d1;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus,
+        .input-group textarea:focus {
+            outline: none;
+            border-color: #2383e2;
+            box-shadow: 0 0 0 1px #2383e2;
+        }
+
+
+
+        .checkbox-group {
+            margin-bottom: 12px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 10px 12px;
+            background: #ffffff;
+            border: 1px solid #e9e9e7;
+            border-radius: 3px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .checkbox-item:hover {
+            background: #f7f6f3;
+        }
+
+        .checkbox-item.completed {
+            background: #f7f6f3;
+            opacity: 0.7;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 12px;
+            margin-top: 3px;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+
+        .checkbox-item label {
+            cursor: pointer;
+            font-size: 0.95em;
+            flex: 1;
+            color: #1a1a1a;
+        }
+
+        .sub-items {
+            margin-left: 32px;
+            margin-top: 8px;
+            margin-bottom: 12px;
+        }
+
+        .file-upload-item {
+            padding: 12px;
+            background: #f7f6f3;
+            border-radius: 3px;
+            margin-bottom: 8px;
+        }
+
+        .file-upload-label {
+            font-size: 0.85em;
+            font-weight: 600;
+            color: #37352f;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .file-button {
+            display: inline-block;
+            padding: 6px 16px;
+            background: #ffffff;
+            border: 1px solid #e9e9e7;
+            border-radius: 3px;
+            font-size: 0.85em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .file-button:hover {
+            background: #f7f6f3;
+        }
+
+        .file-name {
+            display: inline-block;
+            margin-left: 12px;
+            font-size: 0.85em;
+            color: #787774;
+        }
+
+        .agreement-box {
+            border: 1px solid #e9e9e7;
+            border-radius: 4px;
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+
+        .agreement-header {
+            padding: 16px;
+            background: #f7f6f3;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        .agreement-content {
+            padding: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            background: #ffffff;
+            font-size: 0.85em;
+            line-height: 1.7;
+            color: #37352f;
+        }
+
+        .agreement-content h5 {
+            font-size: 0.9em;
+            font-weight: 600;
+            margin-top: 16px;
+            margin-bottom: 8px;
+            color: #37352f;
+        }
+
+        .agreement-content p {
+            margin-bottom: 12px;
+            color: #787774;
+        }
+
+        .agreement-footer {
+            padding: 16px;
+            background: #f7f6f3;
+            border-top: 1px solid #e9e9e7;
+        }
+
+        .agreement-check {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9em;
+        }
+
+        .signature-box {
+            border: 1px solid #e9e9e7;
+            border-radius: 4px;
+            padding: 16px;
+            background: #f7f6f3;
+            text-align: center;
+        }
+
+        .signature-label {
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #37352f;
+        }
+
+        .signature-canvas {
+            border: 1px dashed #d3d3d1;
+            border-radius: 3px;
+            cursor: crosshair;
+            touch-action: none;
+            max-width: 100%;
+            display: block;
+            margin: 0 auto 10px;
+            width: 100%;
+            height: 150px;
+            background: #ffffff;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #2383e2;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            font-size: 0.9em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .btn:hover:not(:disabled) {
+            background: #1a73cc;
+        }
+
+        .btn:disabled {
+            background: #d3d3d1;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: #ffffff;
+            color: #37352f;
+            border: 1px solid #e9e9e7;
+        }
+
+        .btn-secondary:hover {
+            background: #f7f6f3;
+        }
+
+        .btn-large {
+            padding: 10px 24px;
+            font-size: 0.95em;
+        }
+
+        .toggle-content {
+            display: none;
+            margin-top: 16px;
+            padding: 16px;
+            background: #f7f6f3;
+            border-radius: 4px;
+        }
+
+        .toggle-content.show {
+            display: block;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.3);
+            z-index: 1000;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 4px;
+            padding: 40px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .modal-icon {
+            font-size: 3em;
+            margin-bottom: 16px;
+        }
+
+        .modal-content h2 {
+            font-size: 1.3em;
+            margin-bottom: 12px;
+        }
+
+        .modal-content p {
+            color: #787774;
+            margin-bottom: 24px;
+            line-height: 1.6;
+            font-size: 0.9em;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9e9e7;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 24px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #2383e2;
+            transition: width 0.3s;
+        }
+
+        .stage-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #e8f4fd;
+            color: #2383e2;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 20px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .input-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>NetformR&D 퇴사자 오프보딩 가이드</h1>
+            <p>
+                넷폼알앤디와 함께한 시간에 진심으로 감사드립니다 🙏<br>
+                새로운 시작을 응원하며, 원활한 퇴사 절차를 위해 안내드립니다.
+            </p>
+        </div>
+
+        <div style="background: #fff9e6; border-left: 4px solid #f59e0b; padding: 20px 24px; border-radius: 4px; margin-bottom: 24px;">
+            <div style="display: flex; align-items: flex-start; gap: 12px;">
+                <span style="font-size: 1.5em;">⚠️</span>
+                <div>
+                    <strong style="font-size: 1.05em; color: #1a1a1a;">퇴사 절차 안내</strong>
+                    <p style="margin-top: 8px; line-height: 1.6; color: #666;">
+                        원활한 업무 인수인계를 위해 퇴사 희망일 <strong>최소 한 달 전</strong>에 회사와 사전 협의 바랍니다.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- 퇴사자 정보 입력 -->
+        <div class="section">
+            <div class="section-title">📝 퇴사자 정보 입력 <span style="color: #e03e3e; font-weight: 600;">*</span></div>
+            
+            <div style="background: #fef3c7; border-left: 4px solid #f59e0b; padding: 18px 24px; border-radius: 4px; margin-bottom: 8px;">
+                <div style="display: flex; align-items: flex-start; gap: 12px;">
+                    <span style="font-size: 1.5em; line-height: 1;">⚠️</span>
+                    <div style="line-height: 1.7;">
+                        <div style="font-size: 0.95em; color: #92400e; margin-bottom: 6px;">
+                            잔여 연차를 확인하여 퇴사일을 산정하니
+                        </div>
+                        <div style="font-size: 1.05em; color: #78350f; font-weight: 700;">
+                            최종근무일, 잔여연차, 퇴사일은 반드시 경영관리팀과 체크하세요
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="font-size: 0.8em; color: #92400e; padding: 8px 12px; margin-bottom: 20px; line-height: 1.5;">
+                - 입사 2년 미만자는 입사일 기준으로 재산정되어 하이웍스내 잔여연차와 다를 수 있음
+            </div>
+
+            <div class="input-grid">
+                <div class="input-group">
+                    <label>이름 <span class="required">*</span></label>
+                    <input type="text" id="name" placeholder="홍길동">
+                </div>
+                <div class="input-group">
+                    <label>부서 <span class="required">*</span></label>
+                    <input type="text" id="department" placeholder="경영관리팀">
+                </div>
+                <div class="input-group">
+                    <label>생년월일 <span class="required">*</span></label>
+                    <input type="text" id="birth" placeholder="1998-09-13" maxlength="10">
+                </div>
+                <div class="input-group">
+                    <label>주민등록번호 <span class="required">*</span></label>
+                    <input type="text" id="residentNumber" placeholder="980913-1******" maxlength="14">
+                </div>
+                <div class="input-group">
+                    <label>입사일 <span class="required">*</span></label>
+                    <input type="text" id="startDate" placeholder="2023-01-01" maxlength="10">
+                </div>
+                <div class="input-group">
+                    <label>최종근무일 <span class="required">*</span></label>
+                    <input type="text" id="finalWorkDate" placeholder="2025-11-30" maxlength="10">
+                </div>
+                <div class="input-group">
+                    <label>잔여 연차 (일) <span class="required">*</span></label>
+                    <input type="number" id="remainLeave" placeholder="5" min="0">
+                </div>
+                <div class="input-group">
+                    <label>퇴사일 <span class="required">*</span></label>
+                    <input type="text" id="resignDate" placeholder="2025-12-05" maxlength="10">
+                </div>
+                <div class="input-group">
+                    <label>개인 연락처 <span class="required">*</span></label>
+                    <input type="tel" id="phone" placeholder="010-0000-0000" maxlength="13">
+                </div>
+                <div class="input-group">
+                    <label>긴급 연락처 <span class="required">*</span></label>
+                    <input type="tel" id="emergencyPhone" placeholder="010-0000-0000" maxlength="13">
+                </div>
+                <div class="input-group">
+                    <label>개인 이메일 <span class="required">*</span></label>
+                    <input type="email" id="email" placeholder="example@gmail.com">
+                </div>
+                <div class="input-group">
+                    <label>주소 <span class="required">*</span></label>
+                    <input type="text" id="address" placeholder="서울시 강남구...">
+                </div>
+            </div>
+
+            <div style="background: #f0f7ff; border: 1px solid #2383e2; padding: 16px 20px; border-radius: 4px; margin-bottom: 20px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <input type="checkbox" id="confirmResignDate" style="width: 18px; height: 18px; cursor: pointer;" onchange="updateProgress()">
+                    <label for="confirmResignDate" style="cursor: pointer; font-size: 0.95em; font-weight: 600; color: #1a1a1a; margin: 0;">
+                        상기 내용은 경영관리팀과 체크하였습니다.
+                    </label>
+                </div>
+            </div>
+
+            <div class="input-grid">
+                <div class="input-group" style="grid-column: 1 / -1;">
+                    <label>퇴사 사유 <span class="required">*</span></label>
+                    <select id="resignReason">
+                        <option value="">선택하세요</option>
+                        <option value="personal">개인 사정</option>
+                        <option value="career">이직</option>
+                        <option value="health">건강</option>
+                        <option value="study">학업</option>
+                        <option value="etc">기타</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- 1단계: 퇴사 의사 접수 및 초기 처리 -->
+        <div class="section">
+            <div class="section-title">
+                1️⃣ 퇴사 의사 접수 및 초기 처리
+                <span class="stage-badge">1단계</span>
+            </div>
+
+            <div class="checkbox-group">
+                <div class="checkbox-item" onclick="toggleChecklistItem('stage1-1')">
+                    <input type="checkbox" id="check1-1" onchange="updateProgress()" onclick="event.stopPropagation()">
+                    <label for="check1-1">퇴사 의사 표명</label>
+                    <span style="float: right; color: #787774; font-size: 0.9em;">▼</span>
+                </div>
+                <div id="stage1-1" class="sub-items" style="display: none;">
+                    <div style="background: #f7f6f3; padding: 12px 16px; border-radius: 4px; border-left: 3px solid #2383e2; font-size: 0.9em; line-height: 1.6; color: #37352f;">
+                        직속 상사 또는 경영관리팀에 퇴사 의사를 전달한 후 퇴사 절차를 시작합니다.
+                    </div>
+                </div>
+
+                <div class="checkbox-item" onclick="toggleChecklistItem('stage1-2')">
+                    <input type="checkbox" id="check1-2" onchange="updateProgress()" onclick="event.stopPropagation()">
+                    <label for="check1-2">잔여 연차 확인 및 최종 퇴사일 산정</label>
+                    <span style="float: right; color: #787774; font-size: 0.9em;">▼</span>
+                </div>
+                <div id="stage1-2" class="sub-items" style="display: none;">
+                    <div style="background: #f7f6f3; padding: 12px 16px; border-radius: 4px; border-left: 3px solid #2383e2; font-size: 0.9em; line-height: 1.6; color: #37352f;">
+                        하이웍스에서 잔여 연차를 확인하고 최종 퇴사일은 잔여 연차를 고려하여 경영관리팀과 협의 후 확정됩니다.<br><br>
+                        <span style="color: #e03e3e; font-weight: 600;">※ 만 2년 이하 근무자</span>는 입사일 기준으로 연차가 재산정되나 하이웍스 내 잔여연차와 상이할 수 있습니다.
+                    </div>
+                </div>
+
+                <div class="checkbox-item" onclick="toggleChecklistItem('stage1-3')">
+                    <input type="checkbox" id="check1-3" onchange="updateProgress()" onclick="event.stopPropagation()">
+                    <label for="check1-3">인수인계 계획 수립</label>
+                    <span style="float: right; color: #787774; font-size: 0.9em;">▼</span>
+                </div>
+                <div id="stage1-3" class="sub-items" style="display: none;">
+                    <div style="background: #f7f6f3; padding: 12px 16px; border-radius: 4px; border-left: 3px solid #2383e2; font-size: 0.9em; line-height: 1.6; color: #37352f;">
+                        직속 상사와 인수인계 대상자 및 일정을 협의해주세요.<br>
+                        인수인계 문서 작성은 3단계에서 진행됩니다.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- 2단계: 작성·제출 서류 -->
+        <div class="section">
+            <div class="section-title">
+                2️⃣ 작성·제출 서류
+                <span class="stage-badge">2단계</span>
+            </div>
+
+            <div class="checkbox-group">
+                <div class="checkbox-item" onclick="toggleChecklistItem('stage2-1')">
+                    <input type="checkbox" id="check2-1" onchange="updateProgress()" onclick="event.stopPropagation()">
+                    <label for="check2-1">사직서 기안 작성 및 상신</label>
+                    <span style="float: right; color: #787774; font-size: 0.9em;">▼</span>
+                </div>
+                <div id="stage2-1" class="sub-items" style="display: none;">
+                    <div style="background: #fef3c7; padding: 12px 16px; border-radius: 4px; border-left: 3px solid #f59e0b; font-size: 0.9em; line-height: 1.6; color: #37352f;">
+                        📋 하이웍스에서 사직서 기안을 작성하여 상신해주세요.<br>
+                        <span style="font-size: 0.85em; color: #666;">경로: 하이웍스 → 전자결재 → 사직서 양식 선택 → 기안 작성</span>
+                    </div>
+                </div>
+
+                <div class="checkbox-item" onclick="toggleChecklistItem('stage2-2')">
+                    <input type="checkbox" id="check2-2" onchange="updateProgress()" onclick="event.stopPropagation()">
+                    <label for="check2-2">퇴사서약서 (비밀유지서약서) 작성 및 서명</label>
+                    <span style="float: right; color: #787774; font-size: 0.9em;">▼</span>
+                </div>
+                <div id="stage2-2" class="sub-items" style="display: none;">
+                    <div style="background: #fee; padding: 12px 16px; border-radius: 4px; border-left: 3px solid #e03e3e; font-size: 0.9em; line-height: 1.6; color: #37352f; margin-bottom: 12px;">
+                        <strong>⚠️ 필수 제출 서류</strong><br>
+                        아래 퇴사서약서를 확인하고 서명해주세요.
+                    </div>
+                </div>
+
+                <div class="checkbox-item" onclick="toggleChecklistItem('stage2-3')" style="background: #fef9e7; border: 2px solid #f39c12;">
+                    <input type="checkbox" id="check2-3" onchange="updateProgress()" onclick="event.stopPropagation()">
+                    <label for="check2-3">IRP 계좌 제출 (입사 1년 이상 근무자에 한해) <span style="color: #e03e3e; font-weight: 700;">*</span></label>
+                    <span style="float: right; color: #787774; font-size: 0.9em;">▼</span>
+                </div>
+                <div id="stage2-3" class="sub-items" style="display: none; padding: 16px; background: #fef9e7; border-radius: 4px; border: 2px solid #f39c12; border-top: none;">
+                    <div style="background: #fff3cd; padding: 14px 18px; border-radius: 4px; border-left: 4px solid #f39c12; font-size: 0.95em; line-height: 1.6; color: #1a1a1a; margin-bottom: 16px;">
+                        <strong style="color: #e67e22; font-size: 1.05em;">💼 입사 1년 이상 근무한 경우 필수</strong><br>
+                        퇴직연금(DC형) 수령을 위해 <strong>IRP(개인형 퇴직연금) 계좌</strong>를 개설해서<br>
+                        경영관리팀에 서면 제출 하거나 파일 첨부하여 제출하여 주시기 바랍니다.
+                    </div>
+                    
+                    <div style="margin-bottom: 16px;">
+                        <div style="font-weight: 700; margin-bottom: 12px; color: #1a1a1a; font-size: 1.05em;">해당 여부 선택 <span style="color: #e03e3e;">*</span></div>
+                        <div style="display: flex; gap: 16px;">
+                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 10px 14px; background: #fff; border: 2px solid #e9e9e7; border-radius: 4px; font-weight: 500;">
+                                <input type="radio" name="irpStatus" value="notApplicable" id="irpNotApplicable" onchange="toggleIrpUpload()" style="cursor: pointer; width: 18px; height: 18px;">
+                                <span>해당 없음 (1년 미만 근무)</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 10px 14px; background: #fff; border: 2px solid #e9e9e7; border-radius: 4px; font-weight: 500;">
+                                <input type="radio" name="irpStatus" value="applicable" id="irpApplicable" onchange="toggleIrpUpload()" style="cursor: pointer; width: 18px; height: 18px;">
+                                <span>해당함 (1년 이상 근무)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div id="irpUploadSection" style="display: none; margin-top: 16px; padding: 16px; background: #fff; border-radius: 6px; border: 2px dashed #f39c12;">
+                        <div style="font-weight: 600; margin-bottom: 12px; color: #1a1a1a; font-size: 0.95em;">
+                            📎 IRP 계좌 통장사본 첨부 (선택사항)
+                        </div>
+                        <div style="font-size: 0.85em; color: #666; margin-bottom: 12px; line-height: 1.5;">
+                            • 서면으로 경영관리팀에 직접 제출하거나<br>
+                            • 파일로 첨부하여 제출할 수 있습니다
+                        </div>
+                        <label style="display: inline-block; padding: 10px 18px; background: #2383e2; color: white; border-radius: 4px; cursor: pointer; font-size: 0.9em; font-weight: 500; transition: background 0.2s;">
+                            📁 파일 선택
+                            <input type="file" id="irpFile" accept="image/*,.pdf" style="display: none;" onchange="handleIrpFile(this)">
+                        </label>
+                        <div id="irpFileName" style="margin-top: 12px; padding: 10px 14px; background: #f7f6f3; border-radius: 4px; font-size: 0.85em; color: #37352f; display: none;">
+                            <span style="font-weight: 600;">선택된 파일:</span> <span id="irpFileNameText">없음</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- 3단계: 인수인계 및 업무 이관 -->
+        <div class="section">
+            <div class="section-title">
+                3️⃣ 인수인계 및 업무 이관
+                <span class="stage-badge">3단계</span>
+            </div>
+
+            <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="check3-1" onchange="updateProgress()">
+                    <label for="check3-1">인수인계 체크리스트 작성</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="check3-2" onchange="updateProgress()">
+                    <label for="check3-2">담당 프로젝트/업무 현황 문서화</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="check3-3" onchange="updateProgress()">
+                    <label for="check3-3">고객/협력업체 인계 (해당 시)</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="check3-4" onchange="updateProgress()">
+                    <label for="check3-4">비밀번호/접근권한 목록 작성</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="check3-5" onchange="updateProgress()">
+                    <label for="check3-5">인수인계 완료 확인</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- 4단계: 회사 자산 반납 -->
+        <div class="section">
+            <div class="section-title">
+                4️⃣ 회사 자산 반납
+                <span class="stage-badge">4단계</span>
+            </div>
+
+            <div class="callout">
+                <div class="callout-icon">📦</div>
+                <div>
+                    <strong>최종 근무일까지 사용 중인 회사 자산을 반납해주세요.</strong><br>
+                    분실 또는 파손된 자산은 경영관리팀에 사전 고지해주세요.
+                </div>
+            </div>
+
+            <div style="font-weight: 600; margin-bottom: 12px; color: #1a1a1a; font-size: 1em;">📋 반납해야 할 품목 예시 리스트</div>
+
+            <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="check4-1" onchange="updateProgress()">
+                    <label for="check4-1">💻 노트북, 태블릿</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="check4-2" onchange="updateProgress()">
+                    <label for="check4-2">🪪 사원증, 출입카드</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="check4-3" onchange="updateProgress()">
+                    <label for="check4-3">🔑 사물함이나 서랍장 열쇠</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="check4-4" onchange="updateProgress()">
+                    <label for="check4-4">📁 업무 문서, 자료, USB</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="check4-5" onchange="updateProgress()">
+                    <label for="check4-5">💳 법인카드, 하이패스카드</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="check4-6" onchange="updateProgress()">
+                    <label for="check4-6">🚗 차량</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="check4-7" onchange="updateProgress()">
+                    <label for="check4-7">📦 기타 회사에서 지급받은 물품</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- 5단계: 시스템 접근권한 회수 -->
+        <div class="section">
+            <div class="section-title">
+                5️⃣ 시스템 접근권한 회수
+                <span class="stage-badge">5단계</span>
+            </div>
+
+            <div class="callout">
+                <div class="callout-icon">💻</div>
+                <div>
+                    사용중인 계정 정리를 진행합니다.<br>
+                    <strong>개인 데이터는 사전에 백업해주세요.</strong>
+                </div>
+            </div>
+
+            <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="check5-1" onchange="updateProgress()">
+                    <label for="check5-1">하이웍스 계정 정리</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="check5-2" onchange="updateProgress()">
+                    <label for="check5-2">잔디 계정 정리</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="check5-3" onchange="updateProgress()">
+                    <label for="check5-3">각종 클라우드 및 공유문서 접근 권한 회수</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- 6단계: 오프보딩 종결 (퇴직 정산·증빙) -->
+        <div class="section">
+            <div class="section-title">
+                6️⃣ 오프보딩 종결 (퇴직 정산·증빙)
+                <span class="stage-badge">6단계</span>
+            </div>
+
+            <div class="checkbox-group">
+                <div class="checkbox-item" onclick="toggleChecklistItem('stage6-1')">
+                    <input type="checkbox" id="check6-1" onchange="updateProgress()" onclick="event.stopPropagation()">
+                    <label for="check6-1">퇴직금 지급 (해당자만)</label>
+                    <span style="float: right; color: #787774; font-size: 0.9em;">▼</span>
+                </div>
+                <div id="stage6-1" class="sub-items" style="display: none;">
+                    <div style="background: #f7f6f3; padding: 12px 16px; border-radius: 4px; border-left: 3px solid #2383e2; font-size: 0.9em; line-height: 1.6; color: #37352f;">
+                        퇴사일로부터 14일 이내
+                    </div>
+                </div>
+
+                <div class="checkbox-item" onclick="toggleChecklistItem('stage6-2')">
+                    <input type="checkbox" id="check6-2" onchange="updateProgress()" onclick="event.stopPropagation()">
+                    <label for="check6-2">퇴사자 정산</label>
+                    <span style="float: right; color: #787774; font-size: 0.9em;">▼</span>
+                </div>
+                <div id="stage6-2" class="sub-items" style="display: none;">
+                    <div style="background: #f7f6f3; padding: 12px 16px; border-radius: 4px; border-left: 3px solid #2383e2; font-size: 0.9em; line-height: 1.6; color: #37352f;">
+                        소득세 / 4대보험 정산<br>
+                        퇴사 후 +1월 급여지급날에 반영되어 송금 또는 환급 예정
+                    </div>
+                </div>
+
+                <div class="checkbox-item" onclick="toggleChecklistItem('stage6-3')">
+                    <input type="checkbox" id="check6-3" onchange="updateProgress()" onclick="event.stopPropagation()">
+                    <label for="check6-3">원천징수영수증 발급 요청 (필요시)</label>
+                    <span style="float: right; color: #787774; font-size: 0.9em;">▼</span>
+                </div>
+                <div id="stage6-3" class="sub-items" style="display: none;">
+                    <div style="background: #f7f6f3; padding: 12px 16px; border-radius: 4px; border-left: 3px solid #2383e2; font-size: 0.9em; line-height: 1.6; color: #37352f;">
+                        경영관리팀에 문의하세요
+                    </div>
+                </div>
+
+                <div class="checkbox-item" onclick="toggleChecklistItem('stage6-4')">
+                    <input type="checkbox" id="check6-4" onchange="updateProgress()" onclick="event.stopPropagation()">
+                    <label for="check6-4">경력증명서/재직증명서 발급 요청 (필요 시)</label>
+                    <span style="float: right; color: #787774; font-size: 0.9em;">▼</span>
+                </div>
+                <div id="stage6-4" class="sub-items" style="display: none;">
+                    <div style="background: #f7f6f3; padding: 12px 16px; border-radius: 4px; border-left: 3px solid #2383e2; font-size: 0.9em; line-height: 1.6; color: #37352f;">
+                        경영관리팀에 문의하세요
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- 7단계: Exit Interview -->
+        <div class="section">
+            <div class="section-title">
+                7️⃣ Exit Interview (선택사항)
+                <span class="stage-badge">7단계</span>
+            </div>
+
+            <div class="callout">
+                <div class="callout-icon">💬</div>
+                <div>
+                    회사 개선을 위한 소중한 의견을 들려주세요.<br>
+                    솔직한 피드백을 부탁드립니다.
+                </div>
+            </div>
+
+            <div class="input-group" style="margin-bottom: 16px;">
+                <label>퇴사 결정에 가장 큰 영향을 준 요인은 무엇인가요?</label>
+                <textarea id="exitReason" rows="3" placeholder="자유롭게 작성해주세요"></textarea>
+            </div>
+
+            <div class="input-group" style="margin-bottom: 16px;">
+                <label>회사에서 가장 좋았던 점은 무엇인가요?</label>
+                <textarea id="goodPoint" rows="3" placeholder="자유롭게 작성해주세요"></textarea>
+            </div>
+
+            <div class="input-group" style="margin-bottom: 16px;">
+                <label>회사에 개선이 필요한 점은 무엇인가요?</label>
+                <textarea id="improvePoint" rows="3" placeholder="자유롭게 작성해주세요"></textarea>
+            </div>
+
+            <div class="input-group" style="margin-bottom: 16px;">
+                <label>넷폼알앤디를 지인에게 추천하시겠습니까?</label>
+                <select id="recommend">
+                    <option value="">선택하세요</option>
+                    <option value="5">매우 추천</option>
+                    <option value="4">추천</option>
+                    <option value="3">보통</option>
+                    <option value="2">비추천</option>
+                    <option value="1">매우 비추천</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>추가 의견이 있으시면 자유롭게 작성해주세요</label>
+                <textarea id="additionalComment" rows="4" placeholder="자유롭게 작성해주세요"></textarea>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- 8단계: 퇴사서약서 -->
+        <div class="section">
+            <div class="section-title">
+                8️⃣ 퇴사서약서 (비밀유지서약서)
+                <span class="stage-badge" style="background: #fee; color: #e03e3e;">필수</span>
+            </div>
+
+            <div class="agreement-box" id="resignAgreementBox">
+                <div class="agreement-header">
+                    퇴사서약서 (비밀유지 및 회사자산 반납 서약)
+                </div>
+                <div class="agreement-content">
+                    <div style="margin-bottom: 24px;">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 0.9em;">
+                            <tr style="border: 1px solid #e9e9e7;">
+                                <td style="padding: 10px; background: #f7f6f3; font-weight: 600; width: 120px; border: 1px solid #e9e9e7;">성명</td>
+                                <td style="padding: 10px; border: 1px solid #e9e9e7;"><span id="prev-name" style="color: #37352f;">예: 홍길동</span></td>
+                                <td style="padding: 10px; background: #f7f6f3; font-weight: 600; width: 140px; border: 1px solid #e9e9e7;">주민등록번호</td>
+                                <td style="padding: 10px; border: 1px solid #e9e9e7;"><span id="prev-resident" style="color: #37352f;">예: 980913-1******</span></td>
+                            </tr>
+                            <tr style="border: 1px solid #e9e9e7;">
+                                <td style="padding: 10px; background: #f7f6f3; font-weight: 600; border: 1px solid #e9e9e7;">부서</td>
+                                <td style="padding: 10px; border: 1px solid #e9e9e7;"><span id="prev-department" style="color: #37352f;">예: 경영관리팀</span></td>
+                                <td style="padding: 10px; background: #f7f6f3; font-weight: 600; border: 1px solid #e9e9e7;">연락처</td>
+                                <td style="padding: 10px; border: 1px solid #e9e9e7;"><span id="prev-phone" style="color: #37352f;">예: 010-1234-5678</span></td>
+                            </tr>
+                            <tr style="border: 1px solid #e9e9e7;">
+                                <td style="padding: 10px; background: #f7f6f3; font-weight: 600; border: 1px solid #e9e9e7;">주소</td>
+                                <td style="padding: 10px; border: 1px solid #e9e9e7;" colspan="3"><span id="prev-address" style="color: #37352f;">예: 서울시 강남구...</span></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <p style="margin-bottom: 16px; line-height: 1.8;">
+                        본인은 ㈜넷폼알앤디(이하 "회사"라 함)를 퇴사함에 있어 다음 사항을 성실히 준수할 것을 서약합니다.
+                    </p>
+                    
+                    <h5>제1조 (비밀유지 의무)</h5>
+                    <p>
+                        1. 본인은 재직 중 업무상 알게 된 회사의 영업비밀, 기술정보, 고객정보, 인사정보 등 회사의 모든 기밀사항을 퇴직 후에도 제3자에게 누설하거나 공개하지 않겠습니다.
+                    </p>
+                    <p>
+                        2. 본인은 회사의 기밀정보를 이용하여 회사에 손해를 끼치는 행위를 하지 않겠습니다.
+                    </p>
+                    <p>
+                        3. 본 조항은 퇴직 후에도 유효하며, 위반 시 민·형사상 책임을 질 것을 서약합니다.
+                    </p>
+
+                    <h5>제2조 (회사 자산 반납)</h5>
+                    <p>
+                        1. 본인은 회사로부터 제공받은 모든 자산(노트북, 휴대폰, 출입카드, 명함, 업무 문서, 자료 등)을 최종 근무일까지 반납할 것을 약속합니다.
+                    </p>
+                    <p>
+                        2. 회사 자산의 분실 또는 파손에 대해서는 그에 상응하는 책임을 질 것을 서약합니다.
+                    </p>
+
+                    <h5>제3조 (업무 데이터 삭제)</h5>
+                    <p>
+                        1. 본인은 개인 소유의 저장장치(개인 PC, 노트북, USB, 클라우드 등)에 보관된 회사의 모든 업무 관련 데이터를 삭제할 것을 약속합니다.
+                    </p>
+                    <p>
+                        2. 퇴사 후 회사 업무 관련 자료를 보유하고 있지 않음을 확인합니다.
+                    </p>
+
+                    <h5>제4조 (경업금지 의무)</h5>
+                    <p>
+                        1. 본인은 퇴직 후 1년간 회사와 직접적으로 경쟁하는 동종 업계에 취업하거나, 동종 사업을 영위하지 않을 것을 원칙으로 합니다.
+                    </p>
+                    <p>
+                        2. 부득이한 사유로 동종 업계 취업 시, 회사에 사전 통보하고 협의하겠습니다.
+                    </p>
+
+                    <h5>제5조 (위반 시 책임)</h5>
+                    <p>
+                        본 서약을 위반하여 회사에 손해가 발생한 경우, 본인은 민·형사상 모든 책임을 지며, 회사가 입은 손해를 배상할 것을 서약합니다.
+                    </p>
+                    
+                    <p style="text-align: center; margin-top: 32px; font-size: 0.95em; line-height: 2;">
+                        <span id="currentDate">2025년 10월 30일</span><br>
+                        서약자 성명: <span id="prev-name2" style="font-weight: 600;">미입력</span><br><br>
+                        ㈜넷폼알앤디 대표이사 귀중
+                    </p>
+                </div>
+                <div class="agreement-footer">
+                    <div class="agreement-check">
+                        <input type="checkbox" id="agreeResign" onchange="updateProgress()">
+                        <label for="agreeResign">위 내용을 모두 확인하고 동의합니다</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="signature-box">
+                <div class="signature-label">서명</div>
+                <canvas id="signResign" class="signature-canvas" width="800" height="150"></canvas>
+                <button class="btn btn-secondary" onclick="clearSign('resign')">지우기</button>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- 최종 제출 -->
+        <div class="section" style="text-align: center;">
+            <button class="btn btn-large" id="submitBtn" onclick="submitForm()">최종 제출하기</button>
+        </div>
+
+        <div style="text-align: center; margin-top: 24px; padding: 16px; background: #f7f6f3; border-radius: 4px;">
+            <div style="font-weight: 600; margin-bottom: 4px;">문의 담당자</div>
+            <div style="font-size: 0.9em; color: #787774;">경영관리팀 | 주유진 | yoojin83@netformrnd.com</div>
+        </div>
+    </div>
+
+    <!-- 숨겨진 퇴사서약서 이미지 캡처용 섹션 -->
+    <div id="resignAgreementCapture" style="position: absolute; left: -9999px; width: 800px; background: #fff; padding: 40px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;">
+        <div style="text-align: center; margin-bottom: 30px;">
+            <h2 style="font-size: 22px; font-weight: 700; color: #1a1a1a; margin: 0;">퇴사서약서</h2>
+            <p style="font-size: 14px; color: #666; margin-top: 8px;">(비밀유지 및 회사자산 반납 서약)</p>
+        </div>
+        
+        <div style="margin-bottom: 24px;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                <tr style="border: 1px solid #e0e0e0;">
+                    <td style="padding: 10px; background: #f7f7f5; font-weight: 600; width: 120px; border: 1px solid #e0e0e0;">성명</td>
+                    <td style="padding: 10px; border: 1px solid #e0e0e0;"><span id="capture-name"></span></td>
+                    <td style="padding: 10px; background: #f7f7f5; font-weight: 600; width: 140px; border: 1px solid #e0e0e0;">주민등록번호</td>
+                    <td style="padding: 10px; border: 1px solid #e0e0e0;"><span id="capture-resident"></span></td>
+                </tr>
+                <tr style="border: 1px solid #e0e0e0;">
+                    <td style="padding: 10px; background: #f7f7f5; font-weight: 600; border: 1px solid #e0e0e0;">부서</td>
+                    <td style="padding: 10px; border: 1px solid #e0e0e0;"><span id="capture-department"></span></td>
+                    <td style="padding: 10px; background: #f7f7f5; font-weight: 600; border: 1px solid #e0e0e0;">연락처</td>
+                    <td style="padding: 10px; border: 1px solid #e0e0e0;"><span id="capture-phone"></span></td>
+                </tr>
+                <tr style="border: 1px solid #e0e0e0;">
+                    <td style="padding: 10px; background: #f7f7f5; font-weight: 600; border: 1px solid #e0e0e0;">주소</td>
+                    <td style="padding: 10px; border: 1px solid #e0e0e0;" colspan="3"><span id="capture-address"></span></td>
+                </tr>
+            </table>
+        </div>
+
+        <div style="font-size: 14px; line-height: 1.8; color: #37352f; margin-bottom: 30px;">
+            <p style="margin-bottom: 16px;">
+                본인은 ㈜넷폼알앤디(이하 "회사"라 함)를 퇴사함에 있어 다음 사항을 성실히 준수할 것을 서약합니다.
+            </p>
+            
+            <h4 style="font-size: 15px; font-weight: 600; margin: 20px 0 12px 0;">제1조 (비밀유지 의무)</h4>
+            <p style="margin-bottom: 8px;">
+                1. 본인은 재직 중 업무상 알게 된 회사의 영업비밀, 기술정보, 고객정보, 인사정보 등 회사의 모든 기밀사항을 퇴직 후에도 제3자에게 누설하거나 공개하지 않겠습니다.
+            </p>
+            <p style="margin-bottom: 8px;">
+                2. 본인은 회사의 기밀정보를 이용하여 회사에 손해를 끼치는 행위를 하지 않겠습니다.
+            </p>
+            <p style="margin-bottom: 12px;">
+                3. 본 조항은 퇴직 후에도 유효하며, 위반 시 민·형사상 책임을 질 것을 서약합니다.
+            </p>
+
+            <h4 style="font-size: 15px; font-weight: 600; margin: 20px 0 12px 0;">제2조 (회사 자산 반납)</h4>
+            <p style="margin-bottom: 8px;">
+                1. 본인은 회사로부터 제공받은 모든 자산(노트북, 휴대폰, 출입카드, 명함, 업무 문서, 자료 등)을 최종 근무일까지 반납할 것을 약속합니다.
+            </p>
+            <p style="margin-bottom: 12px;">
+                2. 회사 자산의 분실 또는 파손에 대해서는 그에 상응하는 책임을 질 것을 서약합니다.
+            </p>
+
+            <h4 style="font-size: 15px; font-weight: 600; margin: 20px 0 12px 0;">제3조 (업무 데이터 삭제)</h4>
+            <p style="margin-bottom: 8px;">
+                1. 본인은 개인 소유의 저장장치(개인 PC, 노트북, USB, 클라우드 등)에 보관된 회사의 모든 업무 관련 데이터를 삭제할 것을 약속합니다.
+            </p>
+            <p style="margin-bottom: 12px;">
+                2. 퇴사 후 회사 업무 관련 자료를 보유하고 있지 않음을 확인합니다.
+            </p>
+
+            <h4 style="font-size: 15px; font-weight: 600; margin: 20px 0 12px 0;">제4조 (경업금지 의무)</h4>
+            <p style="margin-bottom: 8px;">
+                1. 본인은 퇴직 후 1년간 회사와 직접적으로 경쟁하는 동종 업계에 취업하거나, 동종 사업을 영위하지 않을 것을 원칙으로 합니다.
+            </p>
+            <p style="margin-bottom: 12px;">
+                2. 부득이한 사유로 동종 업계 취업 시, 회사에 사전 통보하고 협의하겠습니다.
+            </p>
+
+            <h4 style="font-size: 15px; font-weight: 600; margin: 20px 0 12px 0;">제5조 (위반 시 책임)</h4>
+            <p style="margin-bottom: 12px;">
+                본 서약을 위반하여 회사에 손해가 발생한 경우, 본인은 민·형사상 모든 책임을 지며, 회사가 입은 손해를 배상할 것을 서약합니다.
+            </p>
+        </div>
+
+        <div style="text-align: center; margin: 30px 0;">
+            <p style="margin: 0 0 4px 0; font-size: 15px;"><span id="capture-current-date">2025년 10월 30일</span></p>
+            <p style="margin: 0 0 20px 0; font-size: 15px;">서약자 성명: <strong id="capture-name2"></strong></p>
+            <p style="margin: 0; font-size: 14px; color: #666;">㈜넷폼알앤디 대표이사 귀중</p>
+        </div>
+
+        <div style="margin-top: 40px; padding-top: 30px; border-top: 2px solid #e0e0e0;">
+            <h3 style="font-size: 16px; font-weight: 600; text-align: center; margin-bottom: 20px;">서명</h3>
+            <div style="border: 2px solid #4a5cdc; border-radius: 8px; padding: 20px; background: #fafafa; min-height: 120px; display: flex; align-items: center; justify-content: center;">
+                <img id="capture-signature" src="" alt="서명" style="max-width: 100%; max-height: 100px;">
+            </div>
+            <p style="text-align: right; margin-top: 10px; font-size: 13px; color: #666;">
+                서명일: <span id="capture-date"></span>
+            </p>
+        </div>
+    </div>
+
+    <!-- 숨겨진 퇴사자 정보 요약 이미지 캡처용 섹션 -->
+    <div id="employeeInfoCapture" style="position: absolute; left: -9999px; width: 800px; background: #fff; padding: 40px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;">
+        <div style="text-align: center; margin-bottom: 30px;">
+            <h2 style="font-size: 22px; font-weight: 700; color: #1a1a1a; margin: 0;">퇴사자 정보 및 동의서</h2>
+            <p style="font-size: 14px; color: #666; margin-top: 8px;">NetformR&D 오프보딩</p>
+        </div>
+
+        <!-- 퇴사자 정보 -->
+        <div style="margin-bottom: 30px;">
+            <h3 style="font-size: 18px; font-weight: 600; color: #1a1a1a; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #4a5cdc;">1. 퇴사자 정보</h3>
+            <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                <tr style="border: 1px solid #e0e0e0;">
+                    <td style="padding: 10px; background: #f7f7f5; font-weight: 600; width: 140px; border: 1px solid #e0e0e0;">성명</td>
+                    <td style="padding: 10px; border: 1px solid #e0e0e0;"><span id="info-name"></span></td>
+                    <td style="padding: 10px; background: #f7f7f5; font-weight: 600; width: 140px; border: 1px solid #e0e0e0;">부서</td>
+                    <td style="padding: 10px; border: 1px solid #e0e0e0;"><span id="info-department"></span></td>
+                </tr>
+                <tr style="border: 1px solid #e0e0e0;">
+                    <td style="padding: 10px; background: #f7f7f5; font-weight: 600; border: 1px solid #e0e0e0;">생년월일</td>
+                    <td style="padding: 10px; border: 1px solid #e0e0e0;"><span id="info-birth"></span></td>
+                    <td style="padding: 10px; background: #f7f7f5; font-weight: 600; border: 1px solid #e0e0e0;">주민등록번호</td>
+                    <td style="padding: 10px; border: 1px solid #e0e0e0;"><span id="info-resident"></span></td>
+                </tr>
+                <tr style="border: 1px solid #e0e0e0;">
+                    <td style="padding: 10px; background: #f7f7f5; font-weight: 600; border: 1px solid #e0e0e0;">입사일</td>
+                    <td style="padding: 10px; border: 1px solid #e0e0e0;"><span id="info-startdate"></span></td>
+                    <td style="padding: 10px; background: #f7f7f5; font-weight: 600; border: 1px solid #e0e0e0;">최종근무일</td>
+                    <td style="padding: 10px; border: 1px solid #e0e0e0;"><span id="info-finalworkdate"></span></td>
+                </tr>
+                <tr style="border: 1px solid #e0e0e0;">
+                    <td style="padding: 10px; background: #f7f7f5; font-weight: 600; border: 1px solid #e0e0e0;">잔여 연차</td>
+                    <td style="padding: 10px; border: 1px solid #e0e0e0;"><span id="info-remainleave"></span>일</td>
+                    <td style="padding: 10px; background: #f7f7f5; font-weight: 600; border: 1px solid #e0e0e0;">퇴사일</td>
+                    <td style="padding: 10px; border: 1px solid #e0e0e0;"><span id="info-resigndate"></span></td>
+                </tr>
+                <tr style="border: 1px solid #e0e0e0;">
+                    <td style="padding: 10px; background: #f7f7f5; font-weight: 600; border: 1px solid #e0e0e0;">개인 연락처</td>
+                    <td style="padding: 10px; border: 1px solid #e0e0e0;"><span id="info-phone"></span></td>
+                    <td style="padding: 10px; background: #f7f7f5; font-weight: 600; border: 1px solid #e0e0e0;">긴급 연락처</td>
+                    <td style="padding: 10px; border: 1px solid #e0e0e0;"><span id="info-emergencyphone"></span></td>
+                </tr>
+                <tr style="border: 1px solid #e0e0e0;">
+                    <td style="padding: 10px; background: #f7f7f5; font-weight: 600; border: 1px solid #e0e0e0;">개인 이메일</td>
+                    <td style="padding: 10px; border: 1px solid #e0e0e0;" colspan="3"><span id="info-email"></span></td>
+                </tr>
+                <tr style="border: 1px solid #e0e0e0;">
+                    <td style="padding: 10px; background: #f7f7f5; font-weight: 600; border: 1px solid #e0e0e0;">주소</td>
+                    <td style="padding: 10px; border: 1px solid #e0e0e0;" colspan="3"><span id="info-address"></span></td>
+                </tr>
+                <tr style="border: 1px solid #e0e0e0;">
+                    <td style="padding: 10px; background: #f7f7f5; font-weight: 600; border: 1px solid #e0e0e0;">퇴사 사유</td>
+                    <td style="padding: 10px; border: 1px solid #e0e0e0;" colspan="3"><span id="info-resignreason"></span></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- 퇴사서약서 동의 -->
+        <div style="margin-bottom: 30px;">
+            <h3 style="font-size: 18px; font-weight: 600; color: #1a1a1a; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #4a5cdc;">2. 퇴사서약서 동의여부</h3>
+            <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                <tr style="border: 1px solid #e0e0e0;">
+                    <td style="padding: 10px; background: #f7f7f5; font-weight: 600; width: 140px; border: 1px solid #e0e0e0;">동의 여부</td>
+                    <td style="padding: 10px; border: 1px solid #e0e0e0;"><span id="info-agreeresign" style="color: #4a5cdc; font-weight: 600;"></span></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- 서명 -->
+        <div style="margin-top: 40px; padding-top: 30px; border-top: 2px solid #e0e0e0;">
+            <h3 style="font-size: 16px; font-weight: 600; text-align: center; margin-bottom: 20px;">서명</h3>
+            <div style="border: 2px solid #4a5cdc; border-radius: 8px; padding: 20px; background: #fafafa; min-height: 120px; display: flex; align-items: center; justify-content: center;">
+                <img id="info-signature" src="" alt="서명" style="max-width: 100%; max-height: 100px;">
+            </div>
+            <p style="text-align: right; margin-top: 10px; font-size: 13px; color: #666;">
+                서명일: <span id="info-signdate"></span>
+            </p>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e0e0e0;">
+            <p style="margin: 0; font-size: 14px; color: #666;">㈜넷폼알앤디 대표이사 귀중</p>
+        </div>
+    </div>
+
+    <!-- 성공 모달 -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-icon">✅</div>
+            <h2>제출 완료!</h2>
+            <p>퇴사 오프보딩 정보가 성공적으로 제출되었습니다.<br>경영관리팀에서 확인 후 연락드리겠습니다.</p>
+            <p style="margin-top: 16px;">그동안 감사했습니다. 앞으로의 여정을 응원합니다! 🙏</p>
+            <button class="btn" onclick="closeModal()">확인</button>
+        </div>
+    </div>
+
+    <script>
+        // ==================== 설정 ====================
+        // Google Apps Script 웹앱 URL
+        const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbz0B-DZ__ppY-nuGHwWZ6GUdgKDS1y818sIxvPnliEfM01ZzKqdzNqbMD8UsmO5uCpxNw/exec';
+        
+        // ==================== 전역 변수 ====================
+        let resignCanvas, resignCtx;
+        let isDrawing = false;
+        let hasResignSign = false;
+
+        window.addEventListener('load', function() {
+            resignCanvas = document.getElementById('signResign');
+            resignCtx = resignCanvas.getContext('2d');
+            setupCanvas(resignCanvas, resignCtx, 'resign');
+
+            // 당일 날짜 자동 설정
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = today.getMonth() + 1;
+            const day = today.getDate();
+            document.getElementById('currentDate').textContent = `${year}년 ${month}월 ${day}일`;
+
+            // 입력 필드 실시간 업데이트
+            document.getElementById('name').addEventListener('input', updatePreviews);
+            document.getElementById('birth').addEventListener('input', function(e) {
+                formatDate(e.target);
+                updatePreviews();
+            });
+            document.getElementById('residentNumber').addEventListener('input', function(e) {
+                formatResidentNumber(e.target);
+                updatePreviews();
+            });
+            document.getElementById('department').addEventListener('input', updatePreviews);
+            document.getElementById('startDate').addEventListener('input', function(e) {
+                formatDate(e.target);
+            });
+            document.getElementById('finalWorkDate').addEventListener('input', function(e) {
+                formatDate(e.target);
+            });
+            document.getElementById('resignDate').addEventListener('input', function(e) {
+                formatDate(e.target);
+            });
+            document.getElementById('phone').addEventListener('input', function(e) {
+                formatPhoneNumber(e.target);
+                updatePreviews();
+            });
+            document.getElementById('emergencyPhone').addEventListener('input', function(e) {
+                formatPhoneNumber(e.target);
+            });
+            document.getElementById('address').addEventListener('input', updatePreviews);
+        });
+
+        function setupCanvas(canvas, ctx, type) {
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+
+            // 마우스 이벤트
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+
+            // 터치 이벤트
+            canvas.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const mouseEvent = new MouseEvent('mousedown', {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY
+                });
+                canvas.dispatchEvent(mouseEvent);
+            });
+
+            canvas.addEventListener('touchmove', function(e) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const mouseEvent = new MouseEvent('mousemove', {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY
+                });
+                canvas.dispatchEvent(mouseEvent);
+            });
+
+            canvas.addEventListener('touchend', function(e) {
+                e.preventDefault();
+                const mouseEvent = new MouseEvent('mouseup', {});
+                canvas.dispatchEvent(mouseEvent);
+            });
+
+            function startDrawing(e) {
+                isDrawing = true;
+                const rect = canvas.getBoundingClientRect();
+                const x = (e.clientX - rect.left) * (canvas.width / rect.width);
+                const y = (e.clientY - rect.top) * (canvas.height / rect.height);
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                if (type === 'resign') hasResignSign = true;
+            }
+
+            function draw(e) {
+                if (!isDrawing) return;
+                const rect = canvas.getBoundingClientRect();
+                const x = (e.clientX - rect.left) * (canvas.width / rect.width);
+                const y = (e.clientY - rect.top) * (canvas.height / rect.height);
+                ctx.lineTo(x, y);
+                ctx.stroke();
+            }
+
+            function stopDrawing() {
+                isDrawing = false;
+            }
+        }
+
+        function clearSign(type) {
+            if (type === 'resign') {
+                resignCtx.clearRect(0, 0, resignCanvas.width, resignCanvas.height);
+                hasResignSign = false;
+            }
+        }
+
+        function formatDate(input) {
+            const cursorPosition = input.selectionStart;
+            const oldValue = input.value;
+            const oldLength = oldValue.replace(/[^\d]/g, '').length;
+            
+            let value = input.value.replace(/[^\d]/g, '');
+            let formatted = '';
+            
+            if (value.length >= 4) {
+                formatted = value.slice(0, 4);
+                if (value.length > 4) {
+                    formatted += '-' + value.slice(4, 6);
+                }
+                if (value.length > 6) {
+                    formatted += '-' + value.slice(6, 8);
+                }
+            } else {
+                formatted = value;
+            }
+            
+            input.value = formatted;
+            
+            // 커서 위치 복원
+            const newLength = formatted.replace(/[^\d]/g, '').length;
+            if (newLength < oldLength) {
+                // 백스페이스로 삭제한 경우
+                let newPos = cursorPosition;
+                if (cursorPosition > 0 && oldValue[cursorPosition - 1] === '-') {
+                    newPos = cursorPosition - 1;
+                }
+                input.setSelectionRange(newPos, newPos);
+            }
+        }
+
+        function updatePreviews() {
+            const name = document.getElementById('name').value || '예: 홍길동';
+            const department = document.getElementById('department').value || '예: 경영관리팀';
+            const residentNumber = document.getElementById('residentNumber').value || '예: 980913-1******';
+            const phone = document.getElementById('phone').value || '예: 010-1234-5678';
+            const address = document.getElementById('address').value || '예: 서울시 강남구...';
+            
+            // 퇴사서약서 테이블 5개 필드 + 서약자 성명 업데이트
+            const elements = [
+                {id: 'prev-name', value: name, hasValue: document.getElementById('name').value},
+                {id: 'prev-resident', value: residentNumber, hasValue: document.getElementById('residentNumber').value},
+                {id: 'prev-department', value: department, hasValue: document.getElementById('department').value},
+                {id: 'prev-phone', value: phone, hasValue: document.getElementById('phone').value},
+                {id: 'prev-address', value: address, hasValue: document.getElementById('address').value},
+                {id: 'prev-name2', value: document.getElementById('name').value || '미입력', hasValue: document.getElementById('name').value}
+            ];
+
+            elements.forEach(elem => {
+                const el = document.getElementById(elem.id);
+                if (el) {
+                    el.textContent = elem.value;
+                    if (elem.hasValue) {
+                        el.style.color = '#37352f';
+                        el.style.fontStyle = 'normal';
+                    } else {
+                        el.style.color = '#c0c0c0';
+                        el.style.fontStyle = 'italic';
+                    }
+                }
+            });
+        }
+
+        function formatResidentNumber(input) {
+            const cursorPosition = input.selectionStart;
+            const oldValue = input.value;
+            const oldLength = oldValue.replace(/[^\d]/g, '').length;
+            
+            let value = input.value.replace(/[^\d]/g, '');
+            let formatted = '';
+            
+            if (value.length > 6) {
+                formatted = value.slice(0, 6) + '-' + value.slice(6, 13);
+            } else {
+                formatted = value;
+            }
+            
+            input.value = formatted;
+            
+            // 커서 위치 복원
+            const newLength = formatted.replace(/[^\d]/g, '').length;
+            if (newLength < oldLength) {
+                // 백스페이스로 삭제한 경우
+                let newPos = cursorPosition;
+                if (cursorPosition > 0 && oldValue[cursorPosition - 1] === '-') {
+                    newPos = cursorPosition - 1;
+                }
+                input.setSelectionRange(newPos, newPos);
+            }
+        }
+
+        function formatPhoneNumber(input) {
+            const cursorPosition = input.selectionStart;
+            const oldValue = input.value;
+            const oldLength = oldValue.replace(/[^\d]/g, '').length;
+            
+            let value = input.value.replace(/[^\d]/g, '');
+            let formatted = '';
+            
+            if (value.length <= 3) {
+                formatted = value;
+            } else if (value.length <= 7) {
+                formatted = value.slice(0, 3) + '-' + value.slice(3);
+            } else if (value.length <= 11) {
+                formatted = value.slice(0, 3) + '-' + value.slice(3, 7) + '-' + value.slice(7);
+            } else {
+                formatted = value.slice(0, 3) + '-' + value.slice(3, 7) + '-' + value.slice(7, 11);
+            }
+            
+            input.value = formatted;
+            
+            // 커서 위치 복원
+            const newLength = formatted.replace(/[^\d]/g, '').length;
+            if (newLength < oldLength) {
+                // 백스페이스로 삭제한 경우
+                let newPos = cursorPosition;
+                if (cursorPosition > 0 && oldValue[cursorPosition - 1] === '-') {
+                    newPos = cursorPosition - 1;
+                }
+                input.setSelectionRange(newPos, newPos);
+            }
+        }
+
+        // 퇴사일 자동계산 함수 제거 (영업일 기준 수동 입력으로 변경)
+
+        function toggleChecklistItem(id) {
+            const element = document.getElementById(id);
+            if (element.style.display === 'none' || !element.style.display) {
+                element.style.display = 'block';
+            } else {
+                element.style.display = 'none';
+            }
+        }
+
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const checked = document.querySelectorAll('input[type="checkbox"]:checked').length;
+            const percentage = (checked / checkboxes.length) * 100;
+            document.getElementById('progressBar').style.width = percentage + '%';
+        }
+
+        function handleFile(input, displayId) {
+            const fileName = input.files[0] ? input.files[0].name : '선택된 파일 없음';
+            document.getElementById(displayId).innerHTML = '<span>' + fileName + '</span>';
+        }
+
+        function handleIrpFile(input) {
+            const fileNameDisplay = document.getElementById('irpFileName');
+            const fileNameText = document.getElementById('irpFileNameText');
+            
+            if (input.files[0]) {
+                fileNameText.textContent = input.files[0].name;
+                fileNameDisplay.style.display = 'block';
+            } else {
+                fileNameText.textContent = '없음';
+                fileNameDisplay.style.display = 'none';
+            }
+        }
+
+        function toggleIrpUpload() {
+            const applicable = document.getElementById('irpApplicable').checked;
+            const uploadSection = document.getElementById('irpUploadSection');
+            
+            if (applicable) {
+                uploadSection.style.display = 'block';
+            } else {
+                uploadSection.style.display = 'none';
+                // 해당없음 선택 시 파일 초기화
+                const fileInput = document.getElementById('irpFile');
+                if (fileInput) {
+                    fileInput.value = '';
+                    document.getElementById('irpFileName').style.display = 'none';
+                    document.getElementById('irpFileNameText').textContent = '없음';
+                }
+            }
+        }
+
+        async function submitForm() {
+            // 필수 입력 확인
+            const name = document.getElementById('name').value;
+            const department = document.getElementById('department').value;
+            const birth = document.getElementById('birth').value;
+            const residentNumber = document.getElementById('residentNumber').value;
+            const startDate = document.getElementById('startDate').value;
+            const finalWorkDate = document.getElementById('finalWorkDate').value;
+            const resignDate = document.getElementById('resignDate').value;
+            const remainLeave = document.getElementById('remainLeave').value;
+            const phone = document.getElementById('phone').value;
+            const emergencyPhone = document.getElementById('emergencyPhone').value;
+            const email = document.getElementById('email').value;
+            const address = document.getElementById('address').value;
+            const resignReason = document.getElementById('resignReason').value;
+            const confirmResignDate = document.getElementById('confirmResignDate').checked;
+            const agreeResign = document.getElementById('agreeResign').checked;
+
+            // 필수 정보 검증
+            if (!name || !department || !birth || !residentNumber || !startDate || !finalWorkDate || !resignDate || !remainLeave || !phone || !emergencyPhone || !email || !address) {
+                alert('⚠️ 퇴사자 정보를 모두 입력해주세요.');
+                return;
+            }
+
+            if (!resignReason) {
+                alert('⚠️ 퇴사 사유를 선택해주세요.');
+                return;
+            }
+
+            if (!confirmResignDate) {
+                alert('⚠️ 상기 내용을 경영관리팀과 체크하였는지 확인해주세요.');
+                return;
+            }
+
+            // IRP 해당 여부 체크
+            const irpNotApplicable = document.getElementById('irpNotApplicable').checked;
+            const irpApplicable = document.getElementById('irpApplicable').checked;
+            
+            if (!irpNotApplicable && !irpApplicable) {
+                alert('⚠️ IRP 계좌 제출 해당 여부를 선택해주세요.');
+                return;
+            }
+
+            if (!agreeResign) {
+                alert('⚠️ 퇴사서약서에 동의해주세요.');
+                return;
+            }
+
+            if (!hasResignSign) {
+                alert('⚠️ 서명을 완료해주세요.');
+                return;
+            }
+
+            // 제출 처리 중 표시
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '이메일 전송중...<br><span style="font-size: 0.8em; font-weight: 400;">1~2분 소요</span>';
+
+            try {
+                console.log('1️⃣ 이미지 생성 시작...');
+                
+                // 1. 서명 이미지 (원본)
+                console.log('   - 서명 이미지 추출 중...');
+                const signatureImage = resignCanvas.toDataURL('image/png');
+                console.log('   ✅ 서명 이미지 추출 완료');
+                
+                // 2. 퇴사서약서 PNG 이미지 생성 (서명 포함)
+                console.log('   - 퇴사서약서 데이터 채우기...');
+                const currentDateStr = new Date().toLocaleString('ko-KR');
+                const currentDateFormat = new Date().getFullYear() + '년 ' + (new Date().getMonth() + 1) + '월 ' + new Date().getDate() + '일';
+                
+                document.getElementById('capture-name').textContent = name;
+                document.getElementById('capture-resident').textContent = residentNumber;
+                document.getElementById('capture-department').textContent = department;
+                document.getElementById('capture-phone').textContent = phone;
+                document.getElementById('capture-address').textContent = address;
+                document.getElementById('capture-current-date').textContent = currentDateFormat;
+                document.getElementById('capture-name2').textContent = name;
+                document.getElementById('capture-signature').src = signatureImage;
+                document.getElementById('capture-date').textContent = currentDateStr;
+                
+                console.log('   - 퇴사서약서 PNG 캡처 중...');
+                const agreementCaptureBox = document.getElementById('resignAgreementCapture');
+                if (!agreementCaptureBox) {
+                    throw new Error('퇴사서약서 캡처 요소를 찾을 수 없습니다.');
+                }
+                
+                const canvas1 = await html2canvas(agreementCaptureBox, {
+                    scale: 2,
+                    useCORS: true,
+                    logging: false,
+                    allowTaint: true,
+                    backgroundColor: '#ffffff'
+                });
+                const agreementImage = canvas1.toDataURL('image/png');
+                console.log('   ✅ 퇴사서약서 PNG 이미지 생성 완료');
+                
+                // 3. 퇴사자 정보 요약 PNG 이미지 생성 (서명 포함)
+                console.log('   - 퇴사자 정보 요약 데이터 채우기...');
+                const resignReasonText = {
+                    'personal': '개인 사정',
+                    'career': '이직',
+                    'health': '건강',
+                    'study': '학업',
+                    'etc': '기타'
+                }[resignReason] || resignReason;
+                
+                document.getElementById('info-name').textContent = name;
+                document.getElementById('info-department').textContent = department;
+                document.getElementById('info-birth').textContent = birth;
+                document.getElementById('info-resident').textContent = residentNumber;
+                document.getElementById('info-startdate').textContent = startDate;
+                document.getElementById('info-finalworkdate').textContent = finalWorkDate;
+                document.getElementById('info-remainleave').textContent = remainLeave;
+                document.getElementById('info-resigndate').textContent = resignDate;
+                document.getElementById('info-phone').textContent = phone;
+                document.getElementById('info-emergencyphone').textContent = emergencyPhone;
+                document.getElementById('info-email').textContent = email;
+                document.getElementById('info-address').textContent = address;
+                document.getElementById('info-resignreason').textContent = resignReasonText;
+                document.getElementById('info-agreeresign').textContent = agreeResign ? '동의' : '미동의';
+                document.getElementById('info-signature').src = signatureImage;
+                document.getElementById('info-signdate').textContent = currentDateStr;
+                
+                console.log('   - 퇴사자 정보 요약 PNG 캡처 중...');
+                const employeeInfoCaptureBox = document.getElementById('employeeInfoCapture');
+                if (!employeeInfoCaptureBox) {
+                    throw new Error('퇴사자 정보 캡처 요소를 찾을 수 없습니다.');
+                }
+                
+                const canvas2 = await html2canvas(employeeInfoCaptureBox, {
+                    scale: 2,
+                    useCORS: true,
+                    logging: false,
+                    allowTaint: true,
+                    backgroundColor: '#ffffff'
+                });
+                const employeeInfoImage = canvas2.toDataURL('image/png');
+                console.log('   ✅ 퇴사자 정보 요약 PNG 이미지 생성 완료');
+                console.log('✅ 1️⃣ 모든 이미지 생성 완료\n');
+                
+                // personalInfoImage 대신 employeeInfoImage 사용
+                const personalInfoImage = employeeInfoImage;
+
+                // IRP 파일 처리
+                console.log('2️⃣ IRP 파일 처리 중...');
+                let irpFileData = null;
+                let irpFileName = '미제출';
+                const irpFileInput = document.getElementById('irpFile');
+                
+                if (irpFileInput.files[0]) {
+                    irpFileName = irpFileInput.files[0].name;
+                    console.log('   - IRP 파일 변환 중: ' + irpFileName);
+                    // 파일을 Base64로 변환
+                    irpFileData = await new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onload = (e) => resolve(e.target.result);
+                        reader.onerror = reject;
+                        reader.readAsDataURL(irpFileInput.files[0]);
+                    });
+                    console.log('   ✅ IRP 파일 변환 완료');
+                } else {
+                    console.log('   - IRP 파일 없음');
+                }
+                console.log('✅ 2️⃣ IRP 파일 처리 완료\n');
+
+                // Exit Interview 데이터 수집
+                console.log('3️⃣ Exit Interview 데이터 수집 중...');
+                const exitReason = document.getElementById('exitReason').value || '미작성';
+                const goodPoint = document.getElementById('goodPoint').value || '미작성';
+                const improvePoint = document.getElementById('improvePoint').value || '미작성';
+                const recommend = document.getElementById('recommend').value || '미선택';
+                const recommendText = {
+                    '5': '매우 추천',
+                    '4': '추천',
+                    '3': '보통',
+                    '2': '비추천',
+                    '1': '매우 비추천'
+                }[recommend] || '미선택';
+                const additionalComment = document.getElementById('additionalComment').value || '미작성';
+                console.log('✅ 3️⃣ Exit Interview 데이터 수집 완료\n');
+
+                // 수집된 데이터
+                console.log('4️⃣ 최종 데이터 패키징 중...');
+                const formData = {
+                    // 퇴사자 정보
+                    name: name,
+                    department: department,
+                    birth: birth,
+                    residentNumber: residentNumber,
+                    startDate: startDate,
+                    finalWorkDate: finalWorkDate,
+                    remainLeave: remainLeave,
+                    resignDate: resignDate,
+                    phone: phone,
+                    emergencyPhone: emergencyPhone,
+                    email: email,
+                    address: address,
+                    resignReason: resignReason,
+                    
+                    // 확인 체크
+                    confirmResignDate: confirmResignDate ? '체크' : '미체크',
+                    
+                    // IRP 정보
+                    irpStatus: irpApplicable ? '해당함' : '해당없음',
+                    irpFileName: irpFileName,
+                    irpFileData: irpFileData,
+                    
+                    // Exit Interview
+                    exitReason: exitReason,
+                    goodPoint: goodPoint,
+                    improvePoint: improvePoint,
+                    recommend: recommendText,
+                    additionalComment: additionalComment,
+                    
+                    // 퇴사서약서
+                    agreeResign: agreeResign ? '동의' : '미동의',
+                    
+                    // 이미지 (3개)
+                    agreementImage: agreementImage, // 퇴사서약서 전체
+                    personalInfoImage: personalInfoImage, // 인적사항 요약 + 서명
+                    signatureImage: signatureImage, // 서명 원본
+                    
+                    // 제출 시간
+                    submittedAt: new Date().toLocaleString('ko-KR')
+                };
+                console.log('✅ 4️⃣ 최종 데이터 패키징 완료\n');
+
+                // Google Apps Script 웹앱으로 이메일 전송
+                console.log('5️⃣ 이메일 발송 시작...');
+                console.log('   - GAS URL:', GAS_WEB_APP_URL);
+                console.log('   - 데이터 크기:', JSON.stringify(formData).length, 'bytes');
+                
+                // GAS URL이 설정되지 않은 경우
+                if (!GAS_WEB_APP_URL || GAS_WEB_APP_URL.includes('YOUR_') || GAS_WEB_APP_URL === '') {
+                    console.warn('⚠️ Google Apps Script URL이 설정되지 않았습니다.');
+                    alert('⚠️ 이메일 발송 설정이 완료되지 않았습니다.\n\n관리자에게 문의해주세요.\n\n입력하신 데이터는 브라우저 콘솔에 저장되었습니다.');
+                    console.log('📋 제출된 데이터:', formData);
+                    document.getElementById('modal').classList.add('show');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = '최종 제출하기';
+                    return;
+                }
+                
+                try {
+                    const response = await fetch(GAS_WEB_APP_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: {
+                            'Content-Type': 'text/plain',
+                        },
+                        body: JSON.stringify(formData),
+                        redirect: 'follow'
+                    });
+                    
+                    console.log('   - 응답 상태:', response.status);
+                    
+                    // 응답 확인
+                    if (response.ok || response.type === 'opaque') {
+                        console.log('✅ 5️⃣ 이메일 발송 요청 완료\n');
+                        console.log('🎉 모든 처리 완료!');
+                        
+                        // 성공 모달 표시
+                        document.getElementById('modal').classList.add('show');
+                        
+                        // 버튼 초기화
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = '최종 제출하기';
+                    } else {
+                        throw new Error('서버 응답 오류: ' + response.status);
+                    }
+                    
+                } catch (emailError) {
+                    console.error('❌ 이메일 발송 오류:', emailError);
+                    console.log('📋 제출하려던 데이터:', formData);
+                    
+                    // 자세한 오류 메시지
+                    let errorMsg = '⚠️ 이메일 발송 중 오류가 발생했습니다.\n\n';
+                    errorMsg += '오류 내용: ' + emailError.message + '\n\n';
+                    errorMsg += '가능한 원인:\n';
+                    errorMsg += '1. Google Apps Script URL이 올바르지 않음\n';
+                    errorMsg += '2. 웹앱 배포 시 "액세스 권한"을 "모든 사용자"로 설정하지 않음\n';
+                    errorMsg += '3. 네트워크 연결 문제\n';
+                    errorMsg += '4. 첨부 파일이 너무 큼 (10MB 이하 권장)\n\n';
+                    errorMsg += '관리자에게 문의해주세요.\n';
+                    errorMsg += '(입력하신 데이터는 브라우저 콘솔에 저장되었습니다)';
+                    
+                    alert(errorMsg);
+                    
+                    // 그래도 모달 표시 (사용자가 입력한 데이터를 잃지 않도록)
+                    document.getElementById('modal').classList.add('show');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = '최종 제출하기';
+                }
+                
+            } catch (error) {
+                console.error('제출 오류:', error);
+                alert('⚠️ 제출 중 오류가 발생했습니다.\n\n오류 내용: ' + error.message + '\n\n다시 시도해주세요.\n\n계속 문제가 발생하면 브라우저를 새로고침 후 다시 시도해주세요.');
+                submitBtn.disabled = false;
+                submitBtn.textContent = '최종 제출하기';
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('show');
+        }
+    </script>
+</body>
+</html>
